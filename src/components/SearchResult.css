@@ -1,0 +1,15 @@
+.search-card {
+    max-width: 100%;
+}
+
+.search-card-title {
+    font-size: 0.8rem;
+    line-height: 0.0;
+}
+
+.search-card-text {
+    font-size: 0.6rem;
+    /* Adjust this to change the text font size */
+    line-height: 1.2;
+    /* Adjust this to change the text line height */
+}

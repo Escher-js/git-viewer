@@ -18,7 +18,7 @@
 .env.test.local
 .env.production.local
 .env
-.runtimeconfig.json
+functions/.runtimeconfig.json
 
 npm-debug.log*
 yarn-debug.log*

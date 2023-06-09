@@ -1,15 +1,12 @@
-// App.js
 import React from 'react';
-import './App.css';
-import ShowRepositories from './components/ShowRepositories';
 import Sidebar from './components/Sidebar';
-import MainContent from './components/MainContent';
+import MainContents from './components/MainContent';
 
 function App() {
   return (
-    <div className="App d-flex flex-column">
+    <div className="App">
       <Sidebar />
-      <MainContent />
+      <MainContents />
     </div>
   );
 }
