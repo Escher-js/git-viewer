@@ -1,15 +1,16 @@
-// components/SearchResultItem.js
 import React from 'react';
-import { ListGroup } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
 
-const SearchResultItem = ({ title, abstract, author }) => {
+function SearchResult({ result, fetchFiles }) {
     return (
-        <ListGroup.Item>
-            <h5>{title}</h5>
-            <p style={{ color: 'gray' }}>{abstract}</p>
-            <p>{author}</p>
-        </ListGroup.Item>
+        <Card className="mb-4" onClick={() => fetchFiles(result.id)}>
+            <Card.Body>
+                <Card.Title>{result.title}</Card.Title>
+                <Card.Text>{result.abstract}</Card.Text>
+            </Card.Body>
+        </Card>
     );
-};
+}
 
-export default SearchResultItem;
+
+export default SearchResult;

@@ -19,7 +19,7 @@ const modalStyle = {
     backgroundColor: '#ffffff',
 };
 
-const Sidebar = () => {
+const Sidebar = ({ setMainContent }) => { // add setMainContent in the function argument
     const [show, setShow] = useState(false);
     const handleModalClose = () => setShow(false); // Change the function name
     const handleModalShow = () => setShow(true); // Change the function name
@@ -27,7 +27,15 @@ const Sidebar = () => {
     const [searchResults, setSearchResults] = useState([]); // 検索結果の状態
     const [isLoading, setIsLoading] = useState(false); // ローディング状態の管理
     const [error, setError] = useState(null); // エラーの管理
-
+    const fetchFiles = async (projectId) => {
+        try {
+            const response = await axios.get(`${API_ACCESS}/getFiles/${projectId}`);
+            const { files, publishContent } = response.data;
+            setMainContent({ files, publishContent });
+        } catch (error) {
+            console.error('Failed to fetch files:', error);
+        }
+    };
     const fetchRepositories = async () => {
         setIsLoading(true);
         setError(null);
@@ -37,6 +45,7 @@ const Sidebar = () => {
                 `${API_ACCESS}/listRepos?q=${searchQuery}`
             );
             const formattedData = response.data.map(repo => ({
+                id: repo.id, // Add this line
                 title: repo.name,
                 abstract: repo.description || 'No description provided.',
                 webUrl: repo.web_url,
@@ -52,7 +61,7 @@ const Sidebar = () => {
 
     return (
         <>
-            <Button className="launch-button" variant="outline-primary" onClick={handleModalShow}>
+            <Button className="launch-button" onClick={handleModalShow}>
                 <BsArrowBarRight color="white" size={20} />
             </Button>
             <Modal
@@ -70,13 +79,20 @@ const Sidebar = () => {
                         onSearch={fetchRepositories}
                     />
                     {isLoading ? (
-                        <p>Loading...</p>
+                        <div>Loading...</div>
                     ) : error ? (
-                        <p>Error: {error.message}</p>
+                        <div>Error: {error.message}</div>
                     ) : (
-                        <SearchResult results={searchResults} />
+                        searchResults.map((result, index) => (
+                            <SearchResult
+                                key={index}
+                                result={result}
+                                fetchFiles={fetchFiles}
+                            />
+                        ))
                     )}
                 </Modal.Body>
+
             </Modal>
         </>
     );
